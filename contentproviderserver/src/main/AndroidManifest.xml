@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tuacy.contentproviderserver">
+
+    <!-- 为了安全 -->
+    <permission
+        android:name="com.tuacy.contentproviderdemo.READ_CONTENTPROVIDER"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="com.tuacy.contentproviderdemo.WRITE_CONTENTPROVIDER"
+        android:protectionLevel="normal" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".UserActivity" />
+
+        <activity android:name=".DepartmentActivity" />
+
+        <provider
+            android:authorities="com.tuacy.contentproviderserver"
+            android:name="com.tuacy.contentproviderserver.provider.AppContentProvider"
+            android:readPermission="com.tuacy.contentproviderdemo.READ_CONTENTPROVIDER"
+            android:writePermission="com.tuacy.contentproviderdemo.WRITE_CONTENTPROVIDER"
+            android:exported="true" />
+    </application>
+
+</manifest>
