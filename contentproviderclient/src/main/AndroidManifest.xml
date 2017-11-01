@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tuacy.contentproviderclient">
 
-    <uses-permission android:name="com.tuacy.contentproviderdemo.READ_CONTENTPROVIDER" />
-    <uses-permission android:name="com.tuacy.contentproviderdemo.WRITE_CONTENTPROVIDER" />
+    <uses-permission android:name="com.tuacy.contentproviderserver.READ_CONTENTPROVIDER" />
+    <uses-permission android:name="com.tuacy.contentproviderserver.WRITE_CONTENTPROVIDER" />
 
     <application
         android:allowBackup="true"

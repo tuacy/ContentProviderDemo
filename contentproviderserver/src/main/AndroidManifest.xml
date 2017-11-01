@@ -4,10 +4,10 @@
 
     <!-- 为了安全 -->
     <permission
-        android:name="com.tuacy.contentproviderdemo.READ_CONTENTPROVIDER"
+        android:name="com.tuacy.contentproviderserver.READ_CONTENTPROVIDER"
         android:protectionLevel="normal" />
     <permission
-        android:name="com.tuacy.contentproviderdemo.WRITE_CONTENTPROVIDER"
+        android:name="com.tuacy.contentproviderserver.WRITE_CONTENTPROVIDER"
         android:protectionLevel="normal" />
 
     <application
@@ -32,8 +32,8 @@
         <provider
             android:authorities="com.tuacy.contentproviderserver"
             android:name="com.tuacy.contentproviderserver.provider.AppContentProvider"
-            android:readPermission="com.tuacy.contentproviderdemo.READ_CONTENTPROVIDER"
-            android:writePermission="com.tuacy.contentproviderdemo.WRITE_CONTENTPROVIDER"
+            android:readPermission="com.tuacy.contentproviderserver.READ_CONTENTPROVIDER"
+            android:writePermission="com.tuacy.contentproviderserver.WRITE_CONTENTPROVIDER"
             android:exported="true" />
     </application>
 
