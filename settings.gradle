@@ -1,1 +1,1 @@
-include ':contentproviderserver', ':contentproviderclient'
+include ':contentproviderserver', ':contentproviderclient', ':contentproviderloader'

@@ -20,7 +20,7 @@ public class ProviderInterface {
 	 * 用来区分ContentProvider中不同的表
 	 */
 	public static final String PATH_USER_TABLE          = "user_table";
-	public static final String USER_TABLE_ROW_ID        = "id";
+	public static final String USER_TABLE_ROW_ID        = "_ID";
 	public static final String USER_TABLE_ROW_NODE_NAME = "name";
 	public static final String USER_TABLE_ROW_NODE_AGE  = "age";
 	public static final Uri    USER_CONTENT_URI         = Uri.parse("content://" + AUTHORITIES)
@@ -35,7 +35,7 @@ public class ProviderInterface {
 	 * 用来区分ContentProvider中不同的表
 	 */
 	public static final String PATH_DEPARTMENT_TABLE            = "department_table";
-	public static final String DEPARTMENT_TABLE_ROW_ID          = "id";
+	public static final String DEPARTMENT_TABLE_ROW_ID          = "_ID";
 	public static final String DEPARTMENT_TABLE_ROW_NODE_NAME   = "name";
 	public static final String DEPARTMENT_TABLE_ROW_NODE_PEOPLE = "people";
 	public static final Uri    DEPARTMENT_CONTENT_URI           = Uri.parse("content://" + AUTHORITIES)

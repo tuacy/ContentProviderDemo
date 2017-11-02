@@ -3,14 +3,18 @@ package com.tuacy.contentproviderserver.provider;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.ParcelFileDescriptor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.tuacy.contentproviderserver.provider.db.DataBaseOpenHelper;
+
+import java.io.FileNotFoundException;
 
 import static com.tuacy.contentproviderserver.provider.ProviderInterface.AUTHORITIES;
 import static com.tuacy.contentproviderserver.provider.ProviderInterface.PATH_DEPARTMENT_TABLE;
@@ -20,14 +24,31 @@ import static com.tuacy.contentproviderserver.provider.ProviderInterface.PATH_US
 public class AppContentProvider extends ContentProvider {
 
 	private DataBaseOpenHelper mDataBaseManager;
+	private Context mContext;
 
 	@Override
 	public boolean onCreate() {
 		if (getContext() == null) {
 			throw new NullPointerException("AppContentProvider getContext() null");
 		}
-		mDataBaseManager = new DataBaseOpenHelper(getContext());
+		mContext = getContext();
+		mDataBaseManager = new DataBaseOpenHelper(mContext);
 		return true;
+	}
+
+	/**
+	 * 共享文件
+	 */
+	@Nullable
+	@Override
+	public ParcelFileDescriptor openFile(@NonNull Uri uri, @NonNull String mode) throws FileNotFoundException {
+		return super.openFile(uri, mode);
+	}
+
+	@Nullable
+	@Override
+	public String[] getStreamTypes(@NonNull Uri uri, @NonNull String mimeTypeFilter) {
+		return super.getStreamTypes(uri, mimeTypeFilter);
 	}
 
 	@Nullable
@@ -43,9 +64,11 @@ public class AppContentProvider extends ContentProvider {
 		switch (buildUriMatcher().match(uri)) {
 			case PATH_USER:
 				cursor = db.query(PATH_USER_TABLE, projection, selection, selectionArgs, sortOrder, null, null);
+				cursor.setNotificationUri(mContext.getContentResolver(), uri);
 				break;
 			case PATH_DEPARTMENT:
 				cursor = db.query(PATH_DEPARTMENT_TABLE, projection, selection, selectionArgs, sortOrder, null, null);
+				cursor.setNotificationUri(mContext.getContentResolver(), uri);
 				break;
 		}
 
@@ -76,6 +99,7 @@ public class AppContentProvider extends ContentProvider {
 				_id = db.insert(PATH_USER_TABLE, null, values);
 				if (_id > 0) {
 					returnUri = ContentUris.withAppendedId(ProviderInterface.USER_CONTENT_URI, _id);
+					mContext.getContentResolver().notifyChange(uri, null);
 				} else {
 					throw new android.database.SQLException("Failed to user insert row into " + uri);
 				}
@@ -84,6 +108,7 @@ public class AppContentProvider extends ContentProvider {
 				_id = db.insert(PATH_DEPARTMENT_TABLE, null, values);
 				if (_id > 0) {
 					returnUri = ContentUris.withAppendedId(ProviderInterface.DEPARTMENT_CONTENT_URI, _id);
+					mContext.getContentResolver().notifyChange(uri, null);
 				} else {
 					throw new android.database.SQLException("Failed to department insert row into " + uri);
 				}
@@ -102,9 +127,11 @@ public class AppContentProvider extends ContentProvider {
 		switch (buildUriMatcher().match(uri)) {
 			case PATH_USER:
 				deleteId = db.delete(PATH_USER_TABLE, selection, selectionArgs);
+				mContext.getContentResolver().notifyChange(uri, null);
 				break;
 			case PATH_DEPARTMENT:
 				deleteId = db.delete(PATH_DEPARTMENT_TABLE, selection, selectionArgs);
+				mContext.getContentResolver().notifyChange(uri, null);
 				break;
 			default:
 				throw new android.database.SQLException("delete Unknown uri: " + uri);
@@ -121,9 +148,11 @@ public class AppContentProvider extends ContentProvider {
 		switch (buildUriMatcher().match(uri)) {
 			case PATH_USER:
 				updateId = db.update(PATH_USER_TABLE, values, selection, selectionArgs);
+				mContext.getContentResolver().notifyChange(uri, null);
 				break;
 			case PATH_DEPARTMENT:
 				updateId = db.update(PATH_DEPARTMENT_TABLE, values, selection, selectionArgs);
+				mContext.getContentResolver().notifyChange(uri, null);
 				break;
 			default:
 				throw new android.database.SQLException("update Unknown uri: " + uri);
